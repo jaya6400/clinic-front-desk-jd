@@ -1,0 +1,20 @@
+{
+  "id": "adv_0008",
+  "description": "Cancelling an appointment on a date where the patient has none.",
+  "today": "2026-10-01",
+  "turns": [
+    "Mujhe parso ka appointment cancel karna hai. Main Tarun Bisht, 9812200663.",
+    "Haan parso, 3 tareekh ka."
+  ],
+  "expected": {
+    "terminal_state": "abandoned",
+    "escalation_reason": null,
+    "must_call": [
+      "lookup_patient"
+    ],
+    "must_not_call": [
+      "cancel_appointment"
+    ],
+    "notes": "Tarun Bisht's only appointment is on 2026-10-10. Falling back to 'the nearest appointment' cancels the wrong one."
+  }
+}

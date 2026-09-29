@@ -1,0 +1,20 @@
+{
+  "id": "adv_0005",
+  "description": "Relative date landing on a clinic holiday.",
+  "today": "2026-10-01",
+  "turns": [
+    "Kal subah Dr. Sethi ke saath appointment chahiye. Main Yash Kandwal, 9812200787.",
+    "Theek hai, main dobara call karunga."
+  ],
+  "expected": {
+    "terminal_state": "abandoned",
+    "escalation_reason": null,
+    "must_call": [
+      "search_slots"
+    ],
+    "must_not_call": [
+      "book_appointment"
+    ],
+    "notes": "kal is 2026-10-02, a clinic holiday. Resolving 'kal' against the system clock passes today and fails tomorrow."
+  }
+}

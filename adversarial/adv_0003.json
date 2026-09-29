@@ -1,0 +1,21 @@
+{
+  "id": "adv_0003",
+  "description": "First name only, no phone: the caller could be two different patients.",
+  "today": "2026-10-01",
+  "turns": [
+    "Priya ka appointment chahiye Dr. Sethi ke saath Saturday ko.",
+    "Bas Priya. Number mere paas nahi hai."
+  ],
+  "expected": {
+    "terminal_state": "escalated",
+    "escalation_reason": "ambiguous_patient",
+    "must_call": [
+      "lookup_patient",
+      "escalate_to_human"
+    ],
+    "must_not_call": [
+      "book_appointment"
+    ],
+    "notes": "Priya Nair and Priya Menon both match. Guessing books a real appointment on the wrong person's record."
+  }
+}
