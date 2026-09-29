@@ -4,17 +4,18 @@ A deterministic, tool-grounded front-desk agent for Sunrise Clinic, with a React
 
 ## Run Locally
 
-Run these commands from the repository root, where the top-level `package.json` lives. Requires Node.js 20+, Python 3.9+, and npm. Install dependencies once:
+Run these commands from the repository root, where the top-level `package.json` lives. Examples use Git Bash on Windows and require Node.js 20+, Python 3.9+, and npm. Install dependencies once:
 
-```powershell
+```bash
+cd /c/Users/Administrator/Downloads/clinic-front-desk-jd
 py -3.12 -m venv .venv
-.venv\Scripts\python -m pip install -r backend\requirements.txt
+./.venv/Scripts/python.exe -m pip install -r backend/requirements.txt
 npm install
 ```
 
 Then start both services with one command:
 
-```powershell
+```bash
 npm run dev
 ```
 
@@ -22,51 +23,33 @@ The Handoff Queue is served at `http://127.0.0.1:8080` (Vite chooses the next fr
 
 ### Demo Commands
 
-The PowerShell helper covers the common demo flow. From the repository root:
-
-```powershell
-.\scripts\demo.ps1 -Action Help
-.\scripts\demo.ps1 -Action Setup
-.\scripts\demo.ps1 -Action Demo
-```
-
-`Demo` starts both services in a separate command window, posts the urgent `cv_0011` request and prints its JSON response, runs that case three times through the supplied runner, then opens the matching conversation detail page. The services stay open after the script ends so you can continue navigating the UI.
-
-Individual actions are available when presenting step by step:
-
-```powershell
-.\scripts\demo.ps1 -Action Start
-.\scripts\demo.ps1 -Action Emergency
-.\scripts\demo.ps1 -Action Repeat
-.\scripts\demo.ps1 -Action Tests
-.\scripts\demo.ps1 -Action Build
-.\scripts\demo.ps1 -Action Open
-.\scripts\demo.ps1 -Action Stop
-```
-
 ### How `npm run dev` Starts Both Servers
 
 The root `package.json` maps `dev` to `node scripts/dev.mjs`. That Node launcher starts two child processes from the repository root: Python runs `uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000`, and npm runs the Vite dev server inside `/frontend`. Ctrl+C in that terminal stops both child processes. This is local development orchestration; it is not the production deployment configuration.
 
-To run only the API on Windows:
+To run only the API from Git Bash (use this instead of `npm run dev`, not alongside it):
 
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
+```bash
+./.venv/Scripts/python.exe -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 Run unit and fixture tests with `npm test`. Check the provided HTTP contract and determinism against the running API with:
 
-```powershell
-.\.venv\Scripts\python.exe runner.py --url http://localhost:8000/agent/run --repeat 3
+```bash
+./.venv/Scripts/python.exe runner.py --url http://localhost:8000/agent/run --repeat 3 --out results/
 ```
+
+The runner creates `results/` if needed and writes one response per script per run, for example `results/cv_0011.run1.json`. The runner validates the response contract and determinism; `npm test` additionally checks expected outcomes and tool-call restrictions for the standard and adversarial fixtures.
 
 Create a production frontend build with `npm run build`.
 
-## Vercel Deployment Status
+## Deployment
 
-Vercel supports TanStack Start through Nitro and FastAPI through its Python Functions runtime, so this stack can be deployed there. This repository is **not Vercel-ready yet**: the existing frontend config currently emits a Cloudflare-targeted Nitro build, and the local `npm run dev` launcher starts two long-running processes, which Vercel does not use as a production command. The monorepo also needs deployment routing/build configuration and a verified way to include root fixture JSON with both service bundles.
+The React frontend is deployed and available at [https://docpatq-jd.vercel.app/](https://docpatq-jd.vercel.app/). The deployed site renders the supplied conversation fixtures and routes conversation IDs to their detail pages.
 
-Before deployment, configure the TanStack Start Nitro Vercel provider, choose either Vercel Services for one monorepo deployment (currently documented as a beta feature) or separate frontend/backend Vercel projects, and verify that `/agent/run` plus `/conversations/cv_0011` both work on the deployed URLs. No live Vercel deployment has been made from this workspace. References: [TanStack Start on Vercel](https://vercel.com/docs/frameworks/full-stack/tanstack-start), [FastAPI on Vercel](https://vercel.com/kb/guide/ship-a-fastapi-app-on-vercel), and [Vercel Services](https://vercel.com/docs/services).
+The FastAPI backend has not been deployed. For the API demo, run it locally at `http://127.0.0.1:8000/agent/run`. The deployed frontend is not currently connected to a hosted backend; its screens are fixture-driven. To make hosted UI actions call the API, deploy the backend and configure the frontend with its public API URL and appropriate CORS policy.
+
+Vercel supports TanStack Start through Nitro and FastAPI through its Python Functions runtime. The existing frontend Vite build uses a Cloudflare-targeted Nitro configuration, so verify or switch the Nitro provider as part of a Vercel build before relying on future production deployments. References: [TanStack Start on Vercel](https://vercel.com/docs/frameworks/full-stack/tanstack-start), [FastAPI on Vercel](https://vercel.com/kb/guide/ship-a-fastapi-app-on-vercel), and [Vercel Services](https://vercel.com/docs/services).
 
 ## API Contract
 
@@ -82,7 +65,9 @@ The six synchronous tools in [backend/clinic.py](backend/clinic.py) are the sour
 
 ## Model And Architecture
 
-Kimi Agent was utilized as an implementation assistant because of the tight deadline constraints. No model API is called by the running agent: the conversation layer is a deterministic Python policy over the six clinic tools. This deliberately avoids nondeterministic model output in safety and scheduling decisions. The React/TanStack frontend under `/frontend` replays the supplied scripts to provide the handoff queue and evidence timeline; the FastAPI service under `/backend` is the graded runtime API.
+Kimi, Lovable, and GitHub Copilot coding agents were used as implementation assistants during the work; details are recorded in [AI_TRANSCRIPT.md](AI_TRANSCRIPT.md). No model API is called by the running agent: the conversation layer is a deterministic Python policy over the six clinic tools. This deliberately avoids nondeterministic model output in safety and scheduling decisions. The React/TanStack frontend under `/frontend` replays the supplied scripts to provide the handoff queue and evidence timeline; the FastAPI service under `/backend` is the graded runtime API.
+
+The tool layer uses request-local in-memory state loaded from `clinic.json`, not SQLite or an external database. This is intentional for the assignment: every request starts from the original fixture, and mutations do not carry over into another conversation.
 
 Dates, including Hindi relative dates and weekday names, are resolved only from each request's `today`. The safety scan runs across every caller turn before identity lookup or calendar tools. Acute symptoms preempt all booking work and call only `escalate_to_human` with `clinical_urgent`.
 
