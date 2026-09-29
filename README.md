@@ -2,6 +2,10 @@
 
 A deterministic, tool-grounded front-desk agent for Sunrise Clinic, with a React handoff queue and conversation detail UI.
 
+## Quick Links:
+- Website Link(Deployed on Vercel): [CLICK HERE](https://docpatq-jd.vercel.app/)
+- Demo Video: [CLICK HERE](https://youtu.be/CfktOrJr0SI)
+
 ## Run Locally
 
 Run these commands from the repository root, where the top-level `package.json` lives. Examples use Git Bash on Windows and require Node.js 20+, Python 3.9+, and npm. Install dependencies once:
