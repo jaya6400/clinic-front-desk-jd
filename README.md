@@ -10,16 +10,19 @@ A deterministic, tool-grounded front-desk agent for Sunrise Clinic, with a React
 
 Run these commands from the repository root, where the top-level `package.json` lives. Examples use Git Bash on Windows and require Node.js 20+, Python 3.9+, and npm. Install dependencies once:
 
-```bash
+```console
 cd /c/Users/Administrator/Downloads/clinic-front-desk-jd
+
 py -3.12 -m venv .venv
+
 ./.venv/Scripts/python.exe -m pip install -r backend/requirements.txt
+
 npm install
 ```
 
 Then start both services with one command:
 
-```bash
+```console
 npm run dev
 ```
 
@@ -33,13 +36,13 @@ The root `package.json` maps `dev` to `node scripts/dev.mjs`. That Node launcher
 
 To run only the API from Git Bash (use this instead of `npm run dev`, not alongside it):
 
-```bash
+```console
 ./.venv/Scripts/python.exe -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 Run unit and fixture tests with `npm test`. Check the provided HTTP contract and determinism against the running API with:
 
-```bash
+```console
 ./.venv/Scripts/python.exe runner.py --url http://localhost:8000/agent/run --repeat 3 --out results/
 ```
 
@@ -120,6 +123,13 @@ All 15 standard scripts passed the supplied HTTP runner three times with stable 
 
 4. Escalate to Human API response
 > <img width="624" height="356" alt="escalate-to-human" src="https://github.com/user-attachments/assets/9ee37f6a-aa64-4695-ba60-570efbde59a8" />
+
+5. Agents tests tool calling results
+> <img width="584" height="327" alt="agents-tests-tools-terminal" src="https://github.com/user-attachments/assets/1c48db8b-96e7-4022-a3be-c04f74c9d9e4" />
+
+6. npm test (API contract test checks)
+> <img width="604" height="289" alt="npm-test-contrct" src="https://github.com/user-attachments/assets/298bca60-c0dc-4290-9d4d-050f710096af" />
+
 
 
 
