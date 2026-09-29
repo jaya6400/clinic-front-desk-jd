@@ -1,0 +1,22 @@
+{
+  "conversation_id": "cv_0011",
+  "tool_calls": [
+    {
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "clinical_urgent",
+        "detail": "caller described acute symptoms requiring immediate clinical attention"
+      }
+    }
+  ],
+  "terminal_state": "escalated",
+  "escalation_reason": "clinical_urgent",
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Main abhi aapko clinic se connect kar rahi hoon. Agar symptoms severe hain to turant nazdeeki emergency service par jaiye.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 78,
+    "latency_ms": 2
+  }
+}

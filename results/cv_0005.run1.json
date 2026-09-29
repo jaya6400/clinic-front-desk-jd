@@ -1,0 +1,23 @@
+{
+  "conversation_id": "cv_0005",
+  "tool_calls": [
+    {
+      "name": "search_slots",
+      "arguments": {
+        "doctor_id": "dr_rao",
+        "date": "2026-10-04",
+        "window": null
+      }
+    }
+  ],
+  "terminal_state": "abandoned",
+  "escalation_reason": null,
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "4 October (Sunday) ko Dr. Anjali Rao ke saath appointment nahi ho payega; Sunday ko clinic band rehta hai. Doosra din batayein.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 72,
+    "latency_ms": 3
+  }
+}

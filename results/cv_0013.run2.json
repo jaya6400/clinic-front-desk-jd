@@ -1,0 +1,14 @@
+{
+  "conversation_id": "cv_0013",
+  "tool_calls": [],
+  "terminal_state": "abandoned",
+  "escalation_reason": null,
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Mujhe appointment ki koi usable detail nahi mili. Jab aap taiyar hon, dobara call kijiye.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 16,
+    "latency_ms": 7
+  }
+}

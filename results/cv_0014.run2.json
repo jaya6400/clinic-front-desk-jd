@@ -1,0 +1,14 @@
+{
+  "conversation_id": "cv_0014",
+  "tool_calls": [],
+  "terminal_state": "refused",
+  "escalation_reason": null,
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Maaf kijiye, main sirf Sunrise Clinic ke individual appointment requests mein madad kar sakti hoon.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 46,
+    "latency_ms": 1
+  }
+}

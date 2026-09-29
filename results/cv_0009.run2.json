@@ -1,0 +1,36 @@
+{
+  "conversation_id": "cv_0009",
+  "tool_calls": [
+    {
+      "name": "lookup_patient",
+      "arguments": {
+        "name": "Lakshmi Iyer",
+        "phone": null
+      }
+    },
+    {
+      "name": "lookup_patient",
+      "arguments": {
+        "name": "Mohit Negi",
+        "phone": "9812200497"
+      }
+    },
+    {
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "not_authorised",
+        "detail": "caller is not an authorised guardian for pt_0012"
+      }
+    }
+  ],
+  "terminal_state": "escalated",
+  "escalation_reason": "not_authorised",
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Kisi aur ke patient record mein bina adhikar ke badlav nahi kar sakti. Main clinic staff ko handoff kar rahi hoon.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 172,
+    "latency_ms": 8
+  }
+}

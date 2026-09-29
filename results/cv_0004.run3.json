@@ -1,0 +1,28 @@
+{
+  "conversation_id": "cv_0004",
+  "tool_calls": [
+    {
+      "name": "lookup_patient",
+      "arguments": {
+        "name": "Priya Nair",
+        "phone": "9812200104"
+      }
+    },
+    {
+      "name": "cancel_appointment",
+      "arguments": {
+        "appointment_id": "ap_0002"
+      }
+    }
+  ],
+  "terminal_state": "cancelled",
+  "escalation_reason": null,
+  "patient_id": "pt_0004",
+  "appointment_id": "ap_0002",
+  "reply": "1 October (Thursday) ka appointment cancel kar diya gaya hai.",
+  "metrics": {
+    "turns": 2,
+    "tokens": 107,
+    "latency_ms": 6
+  }
+}

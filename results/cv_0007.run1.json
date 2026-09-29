@@ -1,0 +1,37 @@
+{
+  "conversation_id": "cv_0007",
+  "tool_calls": [
+    {
+      "name": "search_slots",
+      "arguments": {
+        "doctor_id": "dr_rao",
+        "date": "2026-10-03",
+        "window": null
+      }
+    },
+    {
+      "name": "lookup_patient",
+      "arguments": {
+        "name": "Sharma",
+        "phone": null
+      }
+    },
+    {
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "ambiguous_patient",
+        "detail": "multiple patient records match; no identity was selected"
+      }
+    }
+  ],
+  "terminal_state": "escalated",
+  "escalation_reason": "ambiguous_patient",
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Is detail se ek se zyada patient records milte hain. Main andaza nahi lagaungi aur clinic staff ko handoff kar rahi hoon.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 165,
+    "latency_ms": 10
+  }
+}

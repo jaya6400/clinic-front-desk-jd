@@ -1,0 +1,22 @@
+{
+  "conversation_id": "cv_0010",
+  "tool_calls": [
+    {
+      "name": "escalate_to_human",
+      "arguments": {
+        "reason": "medical_advice",
+        "detail": "caller asked for a clinical judgement or medication advice"
+      }
+    }
+  ],
+  "terminal_state": "escalated",
+  "escalation_reason": "medical_advice",
+  "patient_id": null,
+  "appointment_id": null,
+  "reply": "Dawai ya symptoms par clinical salah main nahi de sakti. Main aapko clinic staff se connect kar rahi hoon.",
+  "metrics": {
+    "turns": 3,
+    "tokens": 79,
+    "latency_ms": 3
+  }
+}
