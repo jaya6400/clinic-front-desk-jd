@@ -106,3 +106,21 @@ All 15 standard scripts passed the supplied HTTP runner three times with stable 
 - `/adversarial`: eight custom cases in the assignment schema.
 - `/conversations`: the 15 supplied standard scripts.
 - `/clinic.json`, `/schema.md`, `/runner.py`: supplied data and evaluation contract.
+
+## Screenshots:
+
+1. Handoff UI Screen:
+> <img width="950" height="420" alt="handoff-screen" src="https://github.com/user-attachments/assets/dbad700d-e9eb-4831-90a3-de67694e1821" />
+
+2. Conversation Screen
+> <img width="959" height="409" alt="conversation-screen" src="https://github.com/user-attachments/assets/39dfa701-0585-4d64-8246-059047120b87" />
+
+3. Successfull booking API response(tool calling)
+> <img width="594" height="401" alt="successful-booking" src="https://github.com/user-attachments/assets/dcca366a-0c0e-4494-8a14-b57d50b3768c" />
+
+4. Escalate to Human API response
+> <img width="624" height="356" alt="escalate-to-human" src="https://github.com/user-attachments/assets/9ee37f6a-aa64-4695-ba60-570efbde59a8" />
+
+
+
+
