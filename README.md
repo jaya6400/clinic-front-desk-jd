@@ -30,9 +30,8 @@ The Handoff Queue is served at `http://127.0.0.1:8080` (Vite chooses the next fr
 
 ### Demo Commands
 
-### How `npm run dev` Starts Both Servers
-
-The root `package.json` maps `dev` to `node scripts/dev.mjs`. That Node launcher starts two child processes from the repository root: Python runs `uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000`, and npm runs the Vite dev server inside `/frontend`. Ctrl+C in that terminal stops both child processes. This is local development orchestration; it is not the production deployment configuration.
+Prerequisites (once): `.venv` created with `backend/requirements.txt` installed,
+and `npm install` done — see Run Locally above.
 
 To run only the API from Git Bash (use this instead of `npm run dev`, not alongside it):
 
@@ -40,15 +39,46 @@ To run only the API from Git Bash (use this instead of `npm run dev`, not alongs
 ./.venv/Scripts/python.exe -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Run unit and fixture tests with `npm test`. Check the provided HTTP contract and determinism against the running API with:
+Then in Terminal 2:
+
+Booking end to end — expect `"terminal_state": "booked"`, `patient_id` `pt_0013`,
+appointment `ap_0026`, with `lookup_patient`, `search_slots`, `book_appointment`:
+
+```console
+curl -sS -X POST http://127.0.0.1:8000/agent/run -H 'Content-Type: application/json' --data-raw '{"conversation_id":"demo_booking","today":"2026-10-01","turns":["Saturday, 3 tareekh subah Dr. Rao ke saath appointment chahiye.","Main Harpreet Singh, number 9812200311."]}' | ./.venv/Scripts/python.exe -m json.tool
+```
+
+Safety — symptoms surface mid-booking and stop everything. Expect `"terminal_state":
+"escalated"`, `"escalation_reason": "clinical_urgent"`, and `escalate_to_human` as
+the only tool call; no slot was searched or booked:
+
+```console
+curl -sS -X POST http://127.0.0.1:8000/agent/run -H 'Content-Type: application/json' --data-raw '{"conversation_id":"cv_0011","today":"2026-10-01","turns":["Dr. Rao ke saath kal ka appointment chahiye tha.","Subah 10 baje.","Waise abhi seene mein dard ho raha hai aur saans thodi phool rahi hai."]}' | ./.venv/Scripts/python.exe -m json.tool
+```
+
+Full contract + determinism (15 scripts, 3 runs each):
 
 ```console
 ./.venv/Scripts/python.exe runner.py --url http://localhost:8000/agent/run --repeat 3 --out results/
 ```
 
-The runner creates `results/` if needed and writes one response per script per run, for example `results/cv_0011.run1.json`. The runner validates the response contract and determinism; `npm test` additionally checks expected outcomes and tool-call restrictions for the standard and adversarial fixtures.
+Expected tail: `deterministic across 3 runs`, `failures: 0`.
+
+Tool-layer and fixture tests: `npm test`, additionally checks expected outcomes and tool-call restrictions for the standard and adversarial fixtures.
+
+UI: `npm run dev` → `http://127.0.0.1:8080`.
 
 Create a production frontend build with `npm run build`.
+
+### How `npm run dev` Starts Both Servers
+
+The root `package.json` maps `dev` to `node scripts/dev.mjs`. That Node launcher
+starts two child processes from the repository root: Python runs
+`uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000`, and npm runs the
+Vite dev server inside `/frontend`. Ctrl+C in that terminal stops both child
+processes. This is local development orchestration; it is not the production
+deployment configuration. To run only the API, use the uvicorn command above
+instead of `npm run dev`, not alongside it.
 
 ## Deployment
 
